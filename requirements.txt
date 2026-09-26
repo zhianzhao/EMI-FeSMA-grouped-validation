@@ -1,0 +1,9 @@
+joblib
+matplotlib
+numpy
+openpyxl
+pandas
+pillow
+scikit-learn
+tabulate
+xgboost

@@ -1,0 +1,102 @@
+{
+  "repository_name": "EMI-FeSMA-grouped-validation",
+  "purpose": "Reproducibility configuration for grouped and chronological validation",
+  "base_random_seed": 42,
+  "synthetic_noise_augmentation": "none",
+  "noise_level": null,
+  "bootstrap_resamples": 2000,
+  "primary_evaluation_unit": "held-out physical-state group mean",
+  "target": "Load",
+  "features": [
+    "RMSD",
+    "Peak",
+    "Frequency",
+    "Area1",
+    "Area2",
+    "Area3",
+    "Area4",
+    "Area5",
+    "Area6",
+    "Area7",
+    "Area8",
+    "Area9",
+    "Area10",
+    "Area11",
+    "Area12"
+  ],
+  "models": [
+    "DT",
+    "SVM",
+    "RF",
+    "MLP",
+    "XGBoost"
+  ],
+  "preprocessing": {
+    "training_only": true,
+    "candidate_feature_scalers": [
+      "Standard",
+      "Robust"
+    ],
+    "scaled_models": [
+      "SVM",
+      "MLP"
+    ],
+    "unscaled_models": [
+      "DT",
+      "RF",
+      "XGBoost"
+    ],
+    "target_standardization": [
+      "SVM",
+      "MLP"
+    ]
+  },
+  "validation_protocols": {
+    "short_term": {
+      "group": "specimen-load",
+      "outer": "5-fold randomized grouped",
+      "inner": "3-fold grouped",
+      "outer_seed": 42,
+      "inner_seed": 59
+    },
+    "long_term_randomized": {
+      "group": "specimen-date",
+      "outer": "5-fold randomized grouped",
+      "inner": "3-fold grouped",
+      "outer_seed": 142,
+      "inner_seed": 159
+    },
+    "long_term_rolling_origin": {
+      "group": "specimen-date",
+      "initial_training_dates": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "evaluated_dates": [
+        23,
+        28,
+        34,
+        43,
+        53,
+        67
+      ],
+      "outer": "expanding-window rolling origin",
+      "inner": "rolling-origin splits within each outer training period",
+      "split_seed": null
+    },
+    "loading_to_failure": {
+      "group": "specimen-stage",
+      "outer": "4-fold randomized grouped",
+      "inner": "3-fold grouped",
+      "outer_seed": 42,
+      "inner_seed": 59
+    }
+  },
+  "supplementary_files": {
+    "Table_S1_data_and_group_counts": "Record counts, independent physical-state groups, evaluated groups, partitioning rules, augmentation status, and split seeds for each beam and stage.",
+    "Table_S2_fold_specific_configurations": "Outer-fold test counts, selected scalers, selected hyperparameters, augmentation status, and seeds for every beam, model, stage, and validation protocol."
+  }
+}
